@@ -9,7 +9,7 @@ trigger_map:
 
 workflows:
   successful-workflow:
-    title: Successful Workflow10
+    title: Successful Workflow11
     steps:
     - script@1.1.2:
         inputs:

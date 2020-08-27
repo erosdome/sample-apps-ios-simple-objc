@@ -2,7 +2,7 @@
 format_version: 1.0.0
 default_step_lib_source: 'https://github.com/bitrise-io/bitrise-steplib.git'
 trigger_map:
-- workflow: successful-workflow
+- workflow: successful-workflow-2
   push_branch: '*'
 - tag: '*'
   workflow: successful-workflow
@@ -14,5 +14,14 @@ workflows:
         - content: |-
             #!/bin/bash
 
-            echo "Success! And btw dis is on the master branch. ~!*()'"
+            echo "Success! And btw dis is on the student branch. ~!*()'"
+        title: Script
+  successful-workflow-2:
+    steps:
+    - script@1.1.2:
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            echo "Success 2! And btw dis is on the student branch. ~!*()'"
         title: Script

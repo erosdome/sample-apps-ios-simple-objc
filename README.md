@@ -1,4 +1,4 @@
-Bitrise sample iOS app 2
+Bitrise sample iOS app 3
 ===========================
 
 This is a simple, Objective-C based iOS app project

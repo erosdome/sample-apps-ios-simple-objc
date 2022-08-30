@@ -35,3 +35,6 @@ workflows:
         run_if: .IsCI
         inputs:
         - is_compress: 'false'
+trigger_map:
+- push_branch: '*'
+  workflow: primary

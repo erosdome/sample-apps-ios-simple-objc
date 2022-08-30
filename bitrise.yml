@@ -5,12 +5,6 @@ app:
   envs:
   - default_apk_dir: ./app/build/outputs/apk
   - default_apk_name: app-debug.apk
-trigger_map:
-- workflow: primary
-  push_branch: '*'
-- workflow: primary
-  pull_request_source_branch: '*'
-  pull_request_target_branch: '*'
 workflows:
   primary:
     steps:

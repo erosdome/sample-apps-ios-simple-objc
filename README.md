@@ -1,7 +1,7 @@
 Bitrise sample iOS app
 ===========================
 
-Are ye listenin, webhook? Here comes sum change.
+Are ye listenin, webhook? Here comes sum more change.
 
 This is a simple, Objective-C based iOS app project
 you can use for testing Bitrise's app validation process

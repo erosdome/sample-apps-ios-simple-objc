@@ -37,4 +37,4 @@ workflows:
         - is_compress: 'false'
 trigger_map:
 - push_branch: '*'
-  workflow: primary
+  workflow: primarye

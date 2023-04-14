@@ -5,8 +5,14 @@ app:
   envs:
   - default_apk_dir: ./app/build/outputs/apk
   - default_apk_name: app-debug.apk
+meta:
+  bitrise.io:
+    stack: osx-xcode-11.5.x
 workflows:
   primary:
+    meta:
+      bitrise.io:
+        stack: osx-xcode-11.5.x
     steps:
     - git-clone@3.0.0:
         run_if: .IsCI

@@ -1,7 +1,7 @@
 Bitrise sample iOS app
 ===========================
 
-This is b simple, Objective-C based iOS app project
+This is c simple, Objective-C based iOS app project
 you can use for testing Bitrise's app validation process
 and use it for experimenting with other Bitrise features after
 you register it as an app on [bitrise.io](http://www.bitrise.io/).

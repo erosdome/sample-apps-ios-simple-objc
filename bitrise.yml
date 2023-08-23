@@ -1,19 +1,230 @@
 ---
-format_version: 1.0.0
+format_version: '8'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
-
+project_type: ios
+app:
+  envs:
+  - FOO: FOO VALUE
+    opts:
+      is_expand: false
+  - BAR: "$FOO/bar"
+    opts:
+      is_expand: false
+meta:
+  bitrise.io:
+    stack: osx-xcode-13.4.x
+    machine_type_id: g2.8core
 trigger_map:
-- pattern: "*"
-  is_pull_request_allowed: true
-  workflow: successful-workflow
-
+- push_branch: "*"
+  pipeline: noop
+- pull_request_source_branch: "*"
+  workflow: 500s-successful-workflow
+pipelines:
+  noop:
+    stages:
+    - noop: {}
+  noop-skipper:
+    stages:
+    - noop: {}
+    - skipper: {}
+  500s-successful-pipeline:
+    stages:
+    - 500s-successful-stage: {}
+stages:
+  noop:
+    workflows:
+    - noop: {}
+  skipper:
+    workflows:
+    - skipper: {}
+  500s-successful-stage:
+    workflows:
+    - 500s-successful-workflow: {}
 workflows:
-  successful-workflow:
-    title: Successful Workflow
+  500s-successful-workflow:
     steps:
-    - script@1.1.2:
+    - script:
+        title: First script
         inputs:
         - content: |-
             #!/bin/bash
 
-            echo "Success!"
+            echo "First"
+
+            for i in {1..1000}
+            do
+                echo "Time passed: $i tizedseconds"
+                sleep .1
+            done
+
+            echo "First script success!"
+    - script:
+        title: Second script
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            echo "Second"
+
+            for i in {1..100}
+            do
+                echo "Time passed: $i seconds"
+                sleep 1
+            done
+
+            echo "Second script success!"
+    - script:
+        title: Third script
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            echo "Third"
+
+            for i in {1..1000}
+            do
+                echo "Time passed: $i tizedseconds"
+                sleep .1
+            done
+
+            echo "Third script success!"
+    - script:
+        title: Fourth script
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            echo "Fourth"
+
+            for i in {1..100}
+            do
+                echo "Time passed: $i seconds"
+                sleep 1
+            done
+
+            echo "Fourth script success!"
+    - script:
+        title: Fifth script
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            echo "Fifth"
+
+            for i in {1..1000}
+            do
+                echo "Time passed: $i tizedseconds"
+                sleep .1
+            done
+
+            echo "Fifth script success!"
+    meta:
+      bitrise.io:
+        stack: osx-xcode-14.3.x-ventura
+        machine_type_id: g2.8core
+  noop: {}
+  primary:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@7:
+        inputs:
+        - clone_depth: '1200'
+        - pull_request_merge_branch: ''
+    - script@1: {}
+    - cache-pull@2: {}
+    - restore-cache@1: {}
+    - certificate-and-profile-installer@1: {}
+    - xcode-test@2:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - scheme: "$BITRISE_SCHEME"
+    - deploy-to-bitrise-io@1: {}
+    - cache-push@2: {}
+    envs:
+    - opts:
+        is_expand: false
+      fef: rer
+  skipper:
+    steps:
+    - script@1:
+        is_always_run: true
+        run_if: 'true'
+        inputs:
+        - content: |-
+            set -ex
+
+            sleep 5
+    - script@1:
+        is_always_run: true
+        is_skippable: true
+        inputs:
+        - content: |-
+            set -ex
+
+            sleep 5
+
+            exit 1
+    - script@1:
+        is_always_run: true
+        inputs:
+        - content: |-
+            set -ex
+
+            sleep 5
+  sleep:
+    steps:
+    - script@1:
+        inputs:
+        - content: |-
+            set -ex
+
+            sleep 60001
+  tinkering:
+    steps:
+    - script@1:
+        title: Check env var availability
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+
+            echo $BAR
+    - git-clone@6: {}
+    - bitrise-run@0:
+        inputs:
+        - bitrise_config_path: "./yml_subfolder/bitrise.yml"
+    - script@1:
+        title: Check env var availability in original & sub
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+
+            echo $a
+            echo $b
+            echo $c
+            echo $FOO
+            echo $BAR
+            echo $SUBYML_KEY
+    - script@1:
+        title: Conditionally install asdf & NodeJS
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+            if ! command -v asdf; then
+              echo "Installing asdf"
+              git clone https://github.com/asdf-vm/asdf.git $BITRISE_SOURCE_DIR/.asdf --branch v0.10.2
+              source $BITRISE_SOURCE_DIR/.asdf/asdf.sh
+              envman add --key PATH --value $PATH
+            else
+              echo "asdf already installed"
+            fi
+            if ! asdf list nodejs; then
+              echo "Installing NodeJS with asdf"
+              asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+            else
+              echo "NodeJS already installed"
+            fi
+            asdf install nodejs

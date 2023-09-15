@@ -1,5 +1,5 @@
 ---
- format_version: '8'
+format_version: '8'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 app:
@@ -13,7 +13,7 @@ app:
 meta:
   bitrise.io:
     stack: osx-xcode-14.3.x-ventura
-    machine_type_id: standard
+    machine_type_id: invalid
 trigger_map:
 - pull_request_source_branch: "*"
   pipeline: 500s-successful-pipeline

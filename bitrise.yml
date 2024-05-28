@@ -13,7 +13,7 @@ app:
 meta:
   bitrise.io:
     stack: osx-xcode-14.3.x-ventura
-    machine_type_id: standard
+    machine_type_id: g2.4core
 trigger_map:
 - pull_request_source_branch: "*"
   pipeline: 500s-successful-pipeline

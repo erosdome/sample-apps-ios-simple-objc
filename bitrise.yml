@@ -1,5 +1,4 @@
----
-format_version: '8'
+format_version: "8"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 app:
@@ -7,7 +6,7 @@ app:
   - FOO: FOO VALUE
     opts:
       is_expand: false
-  - BAR: "$FOO/bar"
+  - BAR: $FOO/bar
     opts:
       is_expand: false
 meta:
@@ -15,7 +14,7 @@ meta:
     stack: osx-xcode-14.3.x-ventura
     machine_type_id: g2-m1.4core
 trigger_map:
-- pull_request_source_branch: "*"
+- pull_request_source_branch: '*'
   pipeline: 500s-successful-pipeline
 pipelines:
   noop:
@@ -130,16 +129,16 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@7:
         inputs:
-        - clone_depth: '1200'
-        - pull_request_merge_branch: ''
+        - clone_depth: "1200"
+        - pull_request_merge_branch: ""
     - script@1: {}
     - cache-pull@2: {}
     - restore-cache@1: {}
     - certificate-and-profile-installer@1: {}
-    - xcode-test@2:
+    - xcode-test@5:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - scheme: "$BITRISE_SCHEME"
+        - project_path: $BITRISE_PROJECT_PATH
+        - scheme: $BITRISE_SCHEME
     - deploy-to-bitrise-io@1: {}
     - cache-push@2: {}
     envs:
@@ -150,7 +149,7 @@ workflows:
     steps:
     - script@1:
         is_always_run: true
-        run_if: 'true'
+        run_if: "true"
         inputs:
         - content: |-
             set -ex
@@ -194,7 +193,7 @@ workflows:
     - git-clone@6: {}
     - bitrise-run@0:
         inputs:
-        - bitrise_config_path: "./yml_subfolder/bitrise.yml"
+        - bitrise_config_path: ./yml_subfolder/bitrise.yml
     - script@1:
         title: Check env var availability in original & sub
         inputs:

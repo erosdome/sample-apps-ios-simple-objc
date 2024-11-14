@@ -12,7 +12,7 @@ workflows:
 meta:
   bitrise.io:
     stack: osx-xcode-15.0.x
-    machine_type_id: g2-m1-max.5core
+    machine_type_id: g2-m1.4core
 trigger_map:
 - workflow: primary
   push_branch: master
